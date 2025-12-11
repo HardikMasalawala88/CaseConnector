@@ -25,7 +25,29 @@ const ApiService = {
   getCase: (id) => axiosInstance.get(API.GET_CASE(id)),
   updateCase: (id, data) => axiosInstance.put(API.UPDATE_CASE(id), data),
   deleteCase: (id) => axiosInstance.delete(API.DELETE_CASE(id)),
-  listCases: () => axiosInstance.get(API.LIST_CASES),
+  // listCases: () => axiosInstance.get(API.LIST_CASES),
+   listCases: async () => {
+    const res = await axiosInstance.get(API.LIST_CASES);
+    const payload = res.data;
+
+    // Normalize response so callers always get an array in `data`.
+    if (Array.isArray(payload)) {
+      return { ...res, data: payload };
+    }
+
+    if (payload && Array.isArray(payload.data)) {
+      return { ...res, data: payload.data };
+    }
+
+    if (payload && Array.isArray(payload.cases)) {
+      return { ...res, data: payload.cases };
+    }
+
+    // Unexpected shape — return empty array and log for debugging
+    console.warn('listCases: unexpected response shape, returning empty array', payload);
+    return { ...res, data: [] };
+  },
+
 
   uploadDocument: (id, data) =>
   axiosInstance.put(API.ADD_DOCUMENT(id), data, {

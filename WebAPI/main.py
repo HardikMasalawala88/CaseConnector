@@ -14,6 +14,7 @@ app = FastAPI(title="Case Tracker API")
 origins = [
     "http://localhost:9002",  # React frontend
     "http://192.168.0.104:9002",
+    "https://case-connector.vercel.app",  # Production frontend
     # You can add more allowed origins here
 ]
 
