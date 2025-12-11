@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+// Use NEXT_PUBLIC_API_BASE_URL so the value is available on both
+// client and server builds. Provide a fallback for local dev.
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
+
 const axiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8000', // Adjust baseURL as needed
+  baseURL,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',

@@ -54,6 +54,48 @@ firebase use --add
 # Select or add your Firebase project
 ```
 
+### Environment configuration (development & production)
+
+This project reads the API base URL from an environment variable named `NEXT_PUBLIC_API_BASE_URL`. Create the following files at the project root to configure dev/prod values, or set the variable in your hosting/CI environment.
+
+- Example `.env.development` (used when running `next dev`):
+
+```text
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
+```
+
+- Example `.env.production` (used for production builds — replace with your real backend URL):
+
+```text
+NEXT_PUBLIC_API_BASE_URL=https://api.yourdomain.com
+```
+
+Notes:
+- Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser by Next.js — only put non-secret values there (the API base URL is fine).
+- Do NOT commit secrets or private keys to VCS. Use your host/CI settings to store real secrets and production values.
+
+How to run with these configs (PowerShell examples):
+
+- Run development server (uses `.env.development` automatically):
+
+```powershell
+npm run dev
+```
+
+- Build for production (ensure `NEXT_PUBLIC_API_BASE_URL` is set for the build environment):
+
+```powershell
+# Set in current PowerShell session (temporary)
+$env:NEXT_PUBLIC_API_BASE_URL = "https://api.yourdomain.com"
+
+# Then build and start
+npm run build
+npm start
+```
+
+For hosted deployments (Vercel, Netlify, Firebase Hosting, etc.), set `NEXT_PUBLIC_API_BASE_URL` in the project's environment/variables settings in the provider dashboard instead of committing `.env.production`.
+
+
 ### 5. Run locally
 
 If this is a typical frontend app (React/Vue/etc):

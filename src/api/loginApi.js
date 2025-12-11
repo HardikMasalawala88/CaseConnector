@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from './axiosInstance';
 
 const loginApi = {
   login: (data) => {
@@ -6,11 +6,7 @@ const loginApi = {
       username: data.username || data.Username,
       password: data.password || data.Password,
     };
-    return axios.post('http://127.0.0.1:8000/account/login', payload, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return axiosInstance.post('/account/login', payload);
   },
 };
 
